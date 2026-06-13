@@ -1,0 +1,20 @@
+id_pokemon = coordenadas[pokemon_j1.get()]["id"]
+
+with open("id.txt", "r") as ficheiro:
+    for linha in ficheiro:
+        dados = linha.strip().split(";")
+
+        if int(dados[0]) == id_pokemon:
+            print("Encontrado!")
+            print(dados)
+            break
+
+
+
+
+id_pokemon = coordenadas[pokemon_j1.get()]
+
+
+
+id_pokemon = coordenadas[pokemon_j1.get()]["id"]
+print(id_pokemon)
