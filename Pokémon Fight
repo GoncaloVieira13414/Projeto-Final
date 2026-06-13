@@ -1,8 +1,9 @@
 import tkinter as tk
 from PIL import Image, ImageTk
+import requests, os
 
-# --- FUNÇÕES DE NAVEGAÇÃO ---
-# Estas funções limpam o ecrã atual e desenham o próximo
+url = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
+
 
 def mudar_para_janela(janela_alvo):
     # Esconde todos os ecrãs/frames
@@ -13,7 +14,29 @@ def mudar_para_janela(janela_alvo):
     
     # Mostra apenas o ecrã que queremos
     janela_alvo.pack(fill="both", expand=True)
+
+
+
+def poke_search():
+    global url
+
+    b = requests.get(url).json()
     
+    with open("id.txt", "w") as my_file:
+
+        for x in range(0,1):
+            c = b["results"][x]["url"]
+            a = b["results"][x]["name"]
+            my_file.write(a + ";")
+            d = requests.get(c).json()
+
+            for y in range(0, 1):
+                g = d["abilities"][0]["ability"]["name"]
+                f = d["abilities"][0]["ability"]["url"]
+                my_file.write(g + ";" + f + ";" + "\n")
+            
+poke_search()
+
 
 root = tk.Tk()
 root.title("Pythomon: Arena")
@@ -31,7 +54,7 @@ frame_principal.pack(fill="both", expand=True)
 fundo = tk.Label(frame_principal, image=foto)
 fundo.place(x=0, y=0, relwidth=1, relheight=1)
 
-label_titulo = tk.Label(frame_principal, text="Pythomon: Arena", font=("Arial", 30, "bold"), bg="#f0f0f0")
+label_titulo = tk.Label(frame_principal, text="Pythomon: Arena", font=("Arial", 30, "bold"), bg="#fff3cd")
 label_titulo.pack(pady=50)
 
 # Botão que leva-me a window 2
@@ -115,7 +138,7 @@ label_res.pack(pady=50)
 label_vencedor = tk.Label(frame_resultados, text="O Vencedor é...", font=("Arial", 18, "italic"), bg="#e2e3e5")
 label_vencedor.pack(pady=20)
 
-# voltar ao inicio
+# voltar ao menu (Window 1)
 btn_reiniciar = tk.Button(frame_resultados, text="Voltar ao Menu Principal", font=("Arial", 14), command=lambda: mudar_para_janela(frame_principal))
 btn_reiniciar.pack(pady=20)
 
